@@ -1,34 +1,21 @@
-// require("babel-register")({
-//   presets: ["es2015"]
-// });
+var express  = require("express"),
+    favicon  = require('serve-favicon'),
+    app      = express(),
+    port     = process.env.PORT || 3000,
+    path       = require('path');
 
-const Hapi = require("hapi");
 
 
-const server = new Hapi.server({
-  host: "localhost",
-  port: process.env.PORT || 4000
+app.use(express.static(__dirname + '/public'));
+app.use("/", (req, res) => {
+  res.status(200).sendFile(path.resolve(__dirname, "public", "index.html"));
 });
+app.use(favicon(path.join(__dirname,'public', 'favicon.ico')));
 
-const init = async () => {
-  await server.register([require("inert"), require("vision")]);
+app.listen(port);
 
-  server.route({
-    method: "GET",
-    path: "/{param*}",
-    handler: {
-      directory: {
-        path: "public",
-        index: ["index.html"]
-      }
-    }
-  });
+console.log('app server started on: ' + port);
 
-
-  await server.start();
-  console.log(`server is running at ${server.info.uri}`);
-};
-
-init();
-
-module.exports = server; //for testing
+app.use(function(req, res) {
+  res.status(404).send({url: req.originalUrl + ' not found'})
+});
