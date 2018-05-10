@@ -31,11 +31,11 @@
         <i class="material-icons right">add</i>
       </button>
       <div class="input-field col s3">
-          <select class="icons">
-            <option value="" data-icon="https://png.icons8.com/ios/40/000000/sorting-options.png"  disabled selected>Filters</option>
-            <option value="" data-icon="https://png.icons8.com/ios/50/000000/overtime.png" class="left">By date</option>
-            <option value="" data-icon="https://png.icons8.com/ios/50/000000/generic-sorting.png" class="left">By text</option>
-            <option value="" data-icon="https://png.icons8.com/ios/50/000000/task-completed.png" class="left">By done</option>
+          <select id="filters" class="icons">
+            <option value="" data-icon="https://png.icons8.com/ios/40/000000/sorting-options.png"  disabled selected>Sorting</option>
+            <option value="date" data-icon="https://png.icons8.com/ios/50/000000/overtime.png" class="left">By date</option>
+            <option value="text" data-icon="https://png.icons8.com/ios/50/000000/generic-sorting.png" class="left">By text</option>
+            <option value="done" data-icon="https://png.icons8.com/ios/50/000000/task-completed.png" class="left">By done</option>
           </select>
         </div>
     </div>
@@ -43,7 +43,7 @@
   </form>
 
   <div id="tasks-container">
-    <ul id="host" class="collection with-header"></ul>
+    <ul id="tasks-list" class="collection with-header"></ul>
   </div>
 
   <footer class="page-footer green">

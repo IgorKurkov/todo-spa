@@ -13,6 +13,5 @@ export const formatDate = (sent, splitter) => {
   return dateSentFormatted;
 }
 
-export const sorting = (a, b) =>  a > b ? 1 : a < b ? -1 : 0;
 
 export const message = text => M.toast({ html: text });

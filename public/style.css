@@ -26,13 +26,9 @@ button.delete-task i {
 }
 button.submit {
   color:white;
-  margin: 24px 0;
+  margin: 22px 0;
 }
-.filters {
 
-  display: flex;
-  /* justify-content: flex-start; */
-}
 .filter {
   margin: 0 10px;
 }

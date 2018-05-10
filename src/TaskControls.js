@@ -1,10 +1,11 @@
 import Storage from "./storage";
-import { formatDate, sort } from "./utils";
+import { formatDate } from "./utils";
 
 export default class TaskControls {
   constructor(tasks, host) {
     this.allTasks = tasks;
     this.host = host;
+    this.sortWay = true;
   }
 
   getAllTasks() {
@@ -31,18 +32,39 @@ export default class TaskControls {
     this.render();
   }
 
-  sortByText() {
-    this.allTasks.sort((a, b) => {
-      sorting(a.text, b.text);
-    });
+  sorting(sortingMethod) {
+    if (this.sortWay) {
+      this.allTasks.sort(sortingMethod);
+      this.sortWay = !this.sortWay;
+    } else {
+      this.allTasks.sort(sortingMethod).reverse();
+      this.sortWay = !this.sortWay;
+    }
     this.render();
   }
 
+  sortByText() {
+    let byText = (a, b) => {
+      const [x, y] = [a.text, b.text];
+      return x < y ? -1 : x > y ? 1 : 0;
+    };
+    this.sorting(byText);
+  }
+
   sortByDate() {
-    this.allTasks.sort((a, b) => {
-      sorting(a.date, b.date);
-    });
-    this.render();
+    let byDate = (a, b) => {
+      const [x, y] = [a.date, b.date];
+      return x < y ? -1 : x > y ? 1 : 0;
+    };
+    this.sorting(byDate);
+  }
+
+  sortByDone() {
+    let byDone = (a, b) => {
+      const [x, y] = [a.isDone, b.isDone];
+      return x === y ? 0 : x ? 1 : -1; // truly values first return (x === y)? 0 : x? -1 : 1;
+    };
+    this.sorting(byDone);
   }
 
   generateTemplate(task) {
@@ -52,8 +74,8 @@ export default class TaskControls {
           <label>
             <input class="checkbox" type="checkbox" id="${task.id}"
              ${task.isDone ? "checked" : ""}
-          />
-          <span class="label-text"></span>
+            />
+            <span class="label-text"></span>
           </label>
         </i>
         <span class="task-title">${task.text}</span>
@@ -64,7 +86,7 @@ export default class TaskControls {
         <button class="delete-task secondary-content">
           <i title="remove task" id="${
             task.id
-          }" class="material-icons delete">delete</i>
+          }" class="material-icons remove-task">delete</i>
         </button>
       </li>
     `;
@@ -72,8 +94,7 @@ export default class TaskControls {
 
   render() {
     const html = this.allTasks
-      .reverse()
-      .reduce((acc, task) => acc + this.generateTemplate(task), "");
+    .reduce((acc, task) => acc + this.generateTemplate(task), "");
     this.host.innerHTML = `
         <li class="collection-header">
           <h4>
