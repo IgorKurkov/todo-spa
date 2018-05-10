@@ -21,10 +21,39 @@
     </div>
   </nav>
   <form id="main-form">
-    <input type="text" name="text" id="text" autocomplete="off">
-    <button class="submit" type="submit">GO</button>
+    <div class="row">
+      <div class="input-field col s7">
+        <i class="material-icons prefix">mode_edit</i>
+        <input id="icon_prefix2" class="materialize-textarea" type="text" name="text" id="text" autocomplete="off"/>
+        <label for="icon_prefix2">Type what you want to do now...</label>
+      </div>
+      <button class="submit col s2 btn waves-effect waves-light" type="submit" name="action">Add task
+        <i class="material-icons right">add</i>
+      </button>
+      <div class="input-field col s3">
+          <select class="icons">
+            <option value="" data-icon="https://png.icons8.com/ios/40/000000/sorting-options.png"  disabled selected>Filters</option>
+            <option value="" data-icon="https://png.icons8.com/ios/50/000000/overtime.png" class="left">By date</option>
+            <option value="" data-icon="https://png.icons8.com/ios/50/000000/generic-sorting.png" class="left">By text</option>
+            <option value="" data-icon="https://png.icons8.com/ios/50/000000/task-completed.png" class="left">By done</option>
+          </select>
+        </div>
+    </div>
+    
   </form>
-  <div id="tasks-container"></div>
+
+  <div id="tasks-container">
+    <ul id="host" class="collection with-header"></ul>
+  </div>
+
+  <footer class="page-footer green">
+      <div class="footer-copyright">
+        <div class="container">
+        © 2018 Some copyrights here)) 
+        <a terget="_blank" class="link grey-text text-lighten-4 right" href="http://kottans.org/">Thanks to @Kottans</a>
+        </div>
+      </div>
+    </footer>
   <script src="bundle.js"></script>
 </body>
 </html>

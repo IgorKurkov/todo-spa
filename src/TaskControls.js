@@ -21,6 +21,7 @@ export default class TaskControls {
     let index = this.allTasks.findIndex(task => taskId === task.id);
     this.allTasks[index].isDone = this.allTasks[index].isDone ? false : true;
     Storage.saveTasks(this.allTasks);
+    return this.allTasks[index].isDone;
   }
 
   removeTask(taskId) {
@@ -55,10 +56,15 @@ export default class TaskControls {
           <span class="label-text"></span>
           </label>
         </i>
-        <span class="title">${task.text}</span>
-        <p>${task.isDone ? "Not done yet" : "Done!"}</p>
+        <span class="task-title">${task.text}</span>
+        <p>
+          ${!task.isDone ? "Not done yet" : "Done!"}<br>
+          ${formatDate(task.date, ".")}
+        </p>
         <button class="delete-task secondary-content">
-          <i id="${task.id}" class="material-icons delete">delete</i>
+          <i title="remove task" id="${
+            task.id
+          }" class="material-icons delete">delete</i>
         </button>
       </li>
     `;
@@ -69,12 +75,14 @@ export default class TaskControls {
       .reverse()
       .reduce((acc, task) => acc + this.generateTemplate(task), "");
     this.host.innerHTML = `
-    <ul class="collection with-header">
-      <li class="collection-header">
-        <h4>You have ${this.allTasks.length} tasks</h4>
-      </li>
-      ${html}
-    </ul>`;
+        <li class="collection-header">
+          <h4>
+            You have ${this.allTasks.length} 
+            ${!this.allTasks.length ? "tasks! Congratulations!" : "tasks"}
+          </h4>
+        </li>
+        ${html}
+      `;
   }
 
   init() {

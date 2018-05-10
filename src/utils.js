@@ -1,4 +1,5 @@
 export const formatDate = (sent, splitter) => {
+  sent = new Date(sent);
   var dateSentFormatted =
     sent.getFullYear() +
     splitter +
@@ -12,6 +13,6 @@ export const formatDate = (sent, splitter) => {
   return dateSentFormatted;
 }
 
-export const sorting = (a, b) => {
-  return a > b ? 1 : a < b ? -1 : 0;
-};
+export const sorting = (a, b) =>  a > b ? 1 : a < b ? -1 : 0;
+
+export const message = text => M.toast({ html: text });

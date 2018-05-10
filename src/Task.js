@@ -1,8 +1,10 @@
+import md5 from "md5";
+
 export default class Task {
-  constructor(id, text, date, isDone) {
-    this.id = id;
+  constructor(text) {
+    this.id = md5(Date.now());
     this.text = text;
-    this.date = date;
-    this.isDone = isDone;
+    this.date = Date.now();
+    this.isDone = false;
   }
 }
