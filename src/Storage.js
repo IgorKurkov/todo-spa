@@ -1,4 +1,3 @@
-
 class Storage {
   constructor() {
     this.tasks =
@@ -12,4 +11,4 @@ class Storage {
   }
 }
 
-export default Storage = new Storage();
+export default (Storage = new Storage());

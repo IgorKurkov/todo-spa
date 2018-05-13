@@ -1,15 +1,14 @@
+import Task from "./Task";
 import Storage from "./storage";
-import { formatDate } from "./utils";
+import { formatDate, viewMessage } from "./utils";
 
 export default class TaskControls {
-  constructor(tasks, host) {
+  constructor(tasks, host, selectList, form) {
     this.allTasks = tasks;
+    this.selectList = selectList;
     this.host = host;
+    this.form = form;
     this.sortWay = true;
-  }
-
-  getAllTasks() {
-    return this.allTasks;
   }
 
   addTask(task) {
@@ -32,14 +31,11 @@ export default class TaskControls {
     this.render();
   }
 
-  sorting(sortingMethod) {
-    if (this.sortWay) {
-      this.allTasks.sort(sortingMethod);
-      this.sortWay = !this.sortWay;
-    } else {
-      this.allTasks.sort(sortingMethod).reverse();
-      this.sortWay = !this.sortWay;
-    }
+  handleSort(sortingMethod) {
+    this.sortWay
+      ? this.allTasks.sort(sortingMethod)
+      : this.allTasks.sort(sortingMethod).reverse();
+    this.sortWay = !this.sortWay;
     this.render();
   }
 
@@ -48,7 +44,7 @@ export default class TaskControls {
       const [x, y] = [a.text, b.text];
       return x < y ? -1 : x > y ? 1 : 0;
     };
-    this.sorting(byText);
+    this.handleSort(byText);
   }
 
   sortByDate() {
@@ -56,7 +52,7 @@ export default class TaskControls {
       const [x, y] = [a.date, b.date];
       return x < y ? -1 : x > y ? 1 : 0;
     };
-    this.sorting(byDate);
+    this.handleSort(byDate);
   }
 
   sortByDone() {
@@ -64,7 +60,70 @@ export default class TaskControls {
       const [x, y] = [a.isDone, b.isDone];
       return x === y ? 0 : x ? 1 : -1; // truly values first return (x === y)? 0 : x? -1 : 1;
     };
-    this.sorting(byDone);
+    this.handleSort(byDone);
+  }
+
+  handleTasksListClicks() {
+    this.host.addEventListener("click", ev => {
+      if (ev.target.classList.contains("checkbox")) {
+        this.toggleTask(ev.target.id)
+          ? viewMessage(`Congrats! You done task!)`)
+          : viewMessage(`Wow! Are you uncheck your task? Why?`);
+      }
+      if (ev.target.classList.contains("remove-task")) {
+        this.removeTask(ev.target.id);
+        viewMessage(`Task was succesfully removed!)`);
+      }
+    });
+  }
+
+  initMaterializeSelects() {
+    document.addEventListener("DOMContentLoaded", () => {
+      const instances = M.FormSelect.init(this.selectList, {
+        classes: "icons"
+      });
+    });
+  }
+
+  handleSortingSelect() {
+    const handler = () => {
+      const e = this.selectList;
+      const handlers = {
+        date: () => {
+          this.sortByDate();
+          viewMessage(`Sorted by task's dates`);
+        },
+        text: () => {
+          this.sortByText();
+          viewMessage(`Sorted by task names`);
+        },
+        done: () => {
+          this.sortByDone();
+          viewMessage(`Sorted by finished tasks`);
+        }
+      };
+      const handler = handlers[e.options[e.selectedIndex].value];
+      if (handler && e.selectedIndex > 0) {
+        handler();
+      }
+    };
+    this.selectList.addEventListener("change", handler);
+  }
+
+  handleFormSubmit() {
+    this.form.addEventListener("submit", ev => {
+      ev.preventDefault();
+      let formData = ev.target.elements;
+      if (formData.text.value) {
+        this.addTask(new Task(formData.text.value.trim()));
+      } else {
+        viewMessage(
+          `You try to add task without text)))<br>
+          It's not a best practice)`
+        );
+      }
+      formData.text.value = "";
+    });
   }
 
   generateTemplate(task) {
@@ -83,7 +142,7 @@ export default class TaskControls {
           ${!task.isDone ? "Not done yet" : "Done!"}<br>
           ${formatDate(task.date, ".")}
         </p>
-        <button class="delete-task secondary-content">
+        <button class="remove-task secondary-content">
           <i title="remove task" id="${
             task.id
           }" class="material-icons remove-task">delete</i>
@@ -93,20 +152,26 @@ export default class TaskControls {
   }
 
   render() {
-    const html = this.allTasks
-    .reduce((acc, task) => acc + this.generateTemplate(task), "");
+    const html = this.allTasks.reduce(
+      (acc, task) => acc + this.generateTemplate(task),
+      ""
+    );
     this.host.innerHTML = `
-        <li class="collection-header">
-          <h4>
-            You have ${this.allTasks.length} 
-            ${!this.allTasks.length ? "tasks! Congratulations!" : "tasks"}
-          </h4>
-        </li>
-        ${html}
-      `;
+      <li class="collection-header">
+        <h4>
+          You have ${this.allTasks.length} 
+          ${!this.allTasks.length ? "tasks! Congratulations!" : "tasks"}
+        </h4>
+      </li>
+      ${html}
+    `;
   }
 
   init() {
+    this.initMaterializeSelects();
+    this.handleSortingSelect();
+    this.handleTasksListClicks();
+    this.handleFormSubmit();
     this.render();
   }
 }

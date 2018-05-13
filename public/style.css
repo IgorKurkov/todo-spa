@@ -12,16 +12,16 @@
   margin-left: 30px;
 }
 
-button.delete-task {
+button.remove-task {
   background-color: transparent;
   border: none;
   display: inline;
   cursor: pointer;
 }
-button.delete-task:hover {
+button.remove-task:hover {
   color: black;
 }
-button.delete-task i {
+button.remove-task i {
   z-index: -1;
 }
 button.submit {

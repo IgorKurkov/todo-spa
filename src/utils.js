@@ -11,7 +11,6 @@ export const formatDate = (sent, splitter) => {
     ":" +
     ("0" + sent.getMinutes()).slice(-2);
   return dateSentFormatted;
-}
+};
 
-
-export const message = text => M.toast({ html: text });
+export const viewMessage = text => M.toast({ html: text });

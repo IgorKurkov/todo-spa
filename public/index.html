@@ -22,35 +22,32 @@
   </nav>
   <form id="main-form">
     <div class="row">
-      <div class="input-field col s7">
+      <div class="input-field col m7 s12">
         <i class="material-icons prefix">mode_edit</i>
         <input id="icon_prefix2" class="materialize-textarea" type="text" name="text" id="text" autocomplete="off"/>
         <label for="icon_prefix2">Type what you want to do now...</label>
       </div>
-      <button class="submit col s2 btn waves-effect waves-light" type="submit" name="action">Add task
+      <button class="submit col m2 s12 btn waves-effect waves-light" type="submit" name="action">Add task
         <i class="material-icons right">add</i>
       </button>
-      <div class="input-field col s3">
-          <select id="filters" class="icons">
-            <option value="" data-icon="https://png.icons8.com/ios/40/000000/sorting-options.png"  disabled selected>Sorting</option>
-            <option value="date" data-icon="https://png.icons8.com/ios/50/000000/overtime.png" class="left">By date</option>
-            <option value="text" data-icon="https://png.icons8.com/ios/50/000000/generic-sorting.png" class="left">By text</option>
-            <option value="done" data-icon="https://png.icons8.com/ios/50/000000/task-completed.png" class="left">By done</option>
-          </select>
-        </div>
+      <div class="input-field col m3 s12">
+        <select id="sorting" class="icons">
+          <option value="" data-icon="https://png.icons8.com/ios/40/000000/sorting-options.png"  disabled selected>Sorting</option>
+          <option value="date" data-icon="https://png.icons8.com/ios/50/000000/overtime.png" class="left">By date</option>
+          <option value="text" data-icon="https://png.icons8.com/ios/50/000000/generic-sorting.png" class="left">By text</option>
+          <option value="done" data-icon="https://png.icons8.com/ios/50/000000/task-completed.png" class="left">By done</option>
+        </select>
+      </div>
     </div>
-    
   </form>
-
   <div id="tasks-container">
     <ul id="tasks-list" class="collection with-header"></ul>
   </div>
-
   <footer class="page-footer green">
       <div class="footer-copyright">
         <div class="container">
         © 2018 Some copyrights here)) 
-        <a terget="_blank" class="link grey-text text-lighten-4 right" href="http://kottans.org/">Thanks to @Kottans</a>
+        <a target="_blank" class="link grey-text text-lighten-4 right" href="http://kottans.org/">Thanks to @Kottans</a>
         </div>
       </div>
     </footer>
